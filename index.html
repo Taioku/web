@@ -17,6 +17,40 @@
             overflow-x: hidden;
             background: linear-gradient(135deg, #c8c8ff 0%, #403333 100%);
             position: relative;
+            transition: all 0.5s ease;
+        }
+
+        /* Modo oscuro */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+        }
+
+        body.dark-mode .section {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(166, 50, 59, 0.3);
+        }
+
+        body.dark-mode .section:hover {
+            border-color: rgba(255, 0, 53, 0.5);
+            box-shadow: 0 20px 40px rgba(255, 0, 53, 0.2);
+        }
+
+        body.dark-mode .section h2 {
+            color: #ff0035;
+        }
+
+        body.dark-mode .section p {
+            color: rgba(200, 200, 255, 0.9);
+        }
+
+        body.dark-mode .skill-tag {
+            background: rgba(166, 50, 59, 0.3);
+            border: 1px solid rgba(166, 50, 59, 0.5);
+            color: #c8c8ff;
+        }
+
+        body.dark-mode .particle {
+            background: rgba(255, 0, 53, 0.8);
         }
 
         /* Efecto de ruido */
@@ -239,11 +273,58 @@
             box-shadow: 0 10px 20px rgba(166, 50, 59, 0.3);
         }
 
+        /* Botón de modo oscuro */
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(200, 200, 255, 0.2);
+            border-radius: 50px;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #c8c8ff;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 0, 53, 0.2);
+            transform: scale(1.05);
+            border-color: rgba(255, 0, 53, 0.3);
+        }
+
+        body.dark-mode .theme-toggle {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(166, 50, 59, 0.3);
+            color: #ff0035;
+        }
+
+        body.dark-mode .theme-toggle:hover {
+            background: rgba(166, 50, 59, 0.3);
+            border-color: rgba(166, 50, 59, 0.5);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
         footer {
             text-align: center;
             padding: 2rem 0;
             color: rgba(200, 200, 255, 0.6);
             border-top: 1px solid rgba(200, 200, 255, 0.1);
+        }
+
+        body.dark-mode footer {
+            color: rgba(255, 0, 53, 0.7);
+            border-top: 1px solid rgba(166, 50, 59, 0.2);
         }
 
         /* Animaciones de entrada */
@@ -284,6 +365,12 @@
 </head>
 <body>
     <div class="particles"></div>
+    
+    <!-- Botón de modo oscuro -->
+    <button class="theme-toggle" onclick="toggleDarkMode()">
+        <span class="theme-icon">🌙</span>
+        <span class="theme-text">Oscuro</span>
+    </button>
     
     <div class="container">
         <header>
@@ -337,6 +424,37 @@
     </div>
 
     <script>
+        // Función para alternar modo oscuro
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-icon');
+            const themeText = document.querySelector('.theme-text');
+            
+            body.classList.toggle('dark-mode');
+            
+            // Cambiar icono y texto
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Claro';
+                // Guardar preferencia
+                sessionStorage.setItem('darkMode', 'true');
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Oscuro';
+                sessionStorage.setItem('darkMode', 'false');
+            }
+        }
+
+        // Cargar preferencia de tema
+        function loadThemePreference() {
+            const darkMode = sessionStorage.getItem('darkMode');
+            if (darkMode === 'true') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-icon').textContent = '☀️';
+                document.querySelector('.theme-text').textContent = 'Claro';
+            }
+        }
+
         // Crear partículas flotantes
         function createParticles() {
             const particlesContainer = document.querySelector('.particles');
@@ -400,6 +518,7 @@
         document.head.appendChild(style);
 
         // Inicializar
+        loadThemePreference();
         createParticles();
 
         // Animación de typing para el título
