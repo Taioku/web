@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taiel Pons - Portafolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #c8c8ff 0%, #403333 100%);
+            position: relative;
+        }
+
+        /* Efecto de ruido */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(166, 50, 59, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(217, 74, 86, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Partículas flotantes */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(200, 200, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 3;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .logo {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff0035, #d94a56, #a6323b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 0, 53, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 50px rgba(255, 0, 53, 0.5);
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff0035, #d94a56);
+            transition: width 0.3s ease;
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(200, 200, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 53, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .section:hover::before {
+            left: 100%;
+        }
+
+        .section:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(166, 50, 59, 0.2);
+            border-color: rgba(255, 0, 53, 0.3);
+        }
+
+        .section h2 {
+            color: #c8c8ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section p {
+            color: rgba(200, 200, 255, 0.8);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: rgba(255, 0, 53, 0.2);
+            color: #c8c8ff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 0, 53, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(255, 0, 53, 0.3);
+            transform: scale(1.05);
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            background: linear-gradient(45deg, #a6323b, #d94a56);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .contact-link:hover::before {
+            left: 100%;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(166, 50, 59, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: rgba(200, 200, 255, 0.6);
+            border-top: 1px solid rgba(200, 200, 255, 0.1);
+        }
+
+        /* Animaciones de entrada */
+        .section {
+            animation: slideUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            main {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    
+    <div class="container">
+        <header>
+            <a href="#about" class="logo" onclick="scrollToSection('about')">Taiel Pons</a>
+        </header>
+
+        <main>
+            <section id="about" class="section">
+                <h2>Sobre Mí</h2>
+                <p>Desarrollador creativo especializado en crear experiencias digitales únicas. Combino diseño y tecnología para dar vida a ideas innovadoras que conectan con las personas.</p>
+            </section>
+
+            <section class="section">
+                <h2>Habilidades</h2>
+                <p>Dominio técnico en múltiples tecnologías y herramientas de desarrollo.</p>
+                <div class="skills">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">UI/UX</span>
+                    <span class="skill-tag">Design</span>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Proyectos</h2>
+                <p>Una colección de proyectos que demuestran mi pasión por el desarrollo web y el diseño interactivo. Cada proyecto cuenta una historia única.</p>
+                <div class="contact-links">
+                    <a href="#" class="contact-link">Ver Portfolio</a>
+                    <a href="#" class="contact-link">GitHub</a>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Contacto</h2>
+                <p>¿Tienes un proyecto en mente? Me encantaría escuchar tus ideas y colaborar contigo.</p>
+                <div class="contact-links">
+                    <a href="mailto:taiel@ejemplo.com" class="contact-link">Email</a>
+                    <a href="#" class="contact-link">LinkedIn</a>
+                    <a href="#" class="contact-link">Twitter</a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Taiel Pons. Creando el futuro digital.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Crear partículas flotantes
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Scroll suave
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+
+        // Efecto parallax en scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const particles = document.querySelector('.particles');
+            particles.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Cursor personalizado
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '4px';
+            cursor.style.height = '4px';
+            cursor.style.background = 'rgba(255, 0, 53, 0.6)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            cursor.style.animation = 'fadeOut 1s ease forwards';
+            document.body.appendChild(cursor);
+
+            setTimeout(() => {
+                cursor.remove();
+            }, 1000);
+        });
+
+        // Animación de fadeOut para cursor
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                0% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Inicializar
+        createParticles();
+
+        // Animación de typing para el título
+        const logo = document.querySelector('.logo');
+        const originalText = logo.textContent;
+        
+        function typeWriter(text, element, delay = 100) {
+            element.textContent = '';
+            let i = 0;
+            
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, delay);
+        }
+
+        // Ejecutar typing effect al cargar
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                typeWriter(originalText, logo, 150);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
